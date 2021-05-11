@@ -17,6 +17,7 @@ router.get('/', async (req, res) => {
     res.status(200).json(productData);
   }
   catch (err) {
+    console.log(err);
     res.status(500).json(err);
   }
 });
@@ -53,9 +54,12 @@ router.post('/', async (req, res) => {
       const productTagIds = await ProductTag.bulkCreate(productTagIdArr);
       res.status(200).json(productTagIds);
     }
-    res.status(200).json(productData);
+    else {
+      res.status(200).json(productData);
+    }
   }
   catch (err) {
+    console.log(err);
     res.status(400).json(err);
   }
 });
@@ -99,7 +103,7 @@ router.put('/:id', async (req, res) => {
   }
 });
 
-router.delete('/:id', (req, res) => {
+router.delete('/:id', async (req, res) => {
   // delete one product by its `id` value
   try {
     const deletedProductData = await Product.destroy({
